@@ -97,6 +97,30 @@ demo_gradio(agency)
 
 **For a complete example, see the [notebook](https://github.com/VRSEN/agency-swarm/blob/main/notebooks/os_models_with_astra_assistants_api.ipynb).**
 
+## Using Local Ollama Models
+
+To use local Ollama models with agency-swarm, follow these steps:
+
+**1. Install the required dependencies:**
+
+```sh
+pip install ollama
+```
+
+**2. Set the OpenAI client:**
+
+```python
+from ollama import Ollama
+
+def set_openai_client():
+    client = Ollama(
+        model_path="path/to/your/local/ollama/model",
+        timeout=5,
+        max_retries=5,
+    )
+    return client
+```
+
 ## General Instructions
 
 To use agency-swarm with any other projects that mimic the Assistants API, generally, you need to follow these steps:
@@ -126,7 +150,15 @@ from agency_swarm import Agent
 ceo = Agent(name="ceo", description="I am the CEO", model='ollama/llama3')
 ```
 
-**4. Start Gradio:**
+**4. Create an agency:**
+
+```python
+from agency_swarm import Agency
+
+agency = Agency([ceo])
+```
+
+**5. Start Gradio:**
 
 To utilize your agency in gradio, apply a specific non-streaming `demo_gradio` method from the [agency-swarm-lab](https://github.com/VRSEN/agency-swarm-lab/blob/main/OpenSourceSwarm/demo_gradio.py) repository:
 
@@ -139,7 +171,7 @@ agency = Agency([ceo])
 demo_gradio(agency)
 ```
 
-**5. For backend integrations, simply use:**
+**6. For backend integrations, simply use:**
 
 ```python
 agency.get_completion("I am the CEO")

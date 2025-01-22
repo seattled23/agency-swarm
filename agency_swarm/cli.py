@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 from agency_swarm.util.helpers import list_available_agents
-
+from agency_swarm import Agent
 
 def main():
     parser = argparse.ArgumentParser(description="Agency Swarm CLI.")
@@ -90,6 +90,7 @@ def main():
 
         import_agent(args.name, args.destination)
 
+    ceo = Agent(name="ceo", description="I am the CEO", model='ollama/llama3')
 
 if __name__ == "__main__":
     main()
