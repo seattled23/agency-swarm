@@ -94,7 +94,7 @@ class Agent:
         api_params: Dict[str, Dict[str, str]] = None,
         file_ids: List[str] = None,
         metadata: Dict[str, str] = None,
-        model: str = "gpt-4o-2024-08-06",
+        model: str = "gpt-4o",
         validation_attempts: int = 1,
         max_prompt_tokens: int = None,
         max_completion_tokens: int = None,

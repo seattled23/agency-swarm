@@ -164,7 +164,7 @@ class AgencyTest(unittest.TestCase):
             "type": "json_object",
         }
 
-        cls.agent2.model = "gpt-4o-2024-08-06"
+        cls.agent2.model = "gpt-4o"
 
         cls.ceo = CEO()
         cls.ceo.examples = [
