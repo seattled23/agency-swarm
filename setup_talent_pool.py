@@ -149,4 +149,4 @@ python-dotenv>=0.19.0
 openai>=1.3.0
 """)
 
-print("Talent Pool agency structure created successfully!") 
+print("Talent Pool agency structure created successfully!")
