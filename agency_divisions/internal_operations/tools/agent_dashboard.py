@@ -249,39 +249,29 @@ class AgentDashboard(BaseTool):
 
 if __name__ == "__main__":
     # Test the dashboard
-    async def test_dashboard():
+    async def test():
         dashboard = AgentDashboard(operation="start_dashboard", data={})
+        dashboard_task = asyncio.create_task(dashboard.run_async())
         
-        try:
-            # Start dashboard in background
-            dashboard_task = asyncio.create_task(dashboard.run_async())
-            
-            # Simulate agent status updates
-            for i in range(5):
-                dashboard.operation = "update_agent_status"
-                dashboard.data = {
-                    "agent_status": {
-                        "name": f"Agent_{i}",
-                        "status": "online",
-                        "current_task": f"Task_{i}",
-                        "message_queue_size": i * 2,
-                        "cpu_usage": i * 10.0,
-                        "memory_usage": i * 5.0,
-                        "uptime": i * 60.0
-                    }
+        # Simulate agent updates
+        for i in range(3):
+            dashboard.operation = "update_agent_status"
+            dashboard.data = {
+                "agent_status": {
+                    "name": "TestAgent",
+                    "status": "online",
+                    "current_task": f"Task {i}",
+                    "message_queue_size": i,
+                    "cpu_usage": 0.5,
+                    "memory_usage": 2.0,
+                    "uptime": i * 10
                 }
-                await dashboard.run_async()
-                await asyncio.sleep(2)
-            
-            # Run for a few more seconds
-            await asyncio.sleep(5)
-            
-            # Stop dashboard
-            dashboard.operation = "stop_dashboard"
+            }
             await dashboard.run_async()
-            await dashboard_task
-            
-        except Exception as e:
-            print(f"Error in dashboard test: {str(e)}")
+            await asyncio.sleep(2)
+        
+        dashboard.operation = "stop_dashboard"
+        await dashboard.run_async()
+        await dashboard_task
     
-    asyncio.run(test_dashboard()) 
+    asyncio.run(test()) 
