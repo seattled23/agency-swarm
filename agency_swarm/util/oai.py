@@ -4,7 +4,6 @@ OpenAI client utility functions for agency-swarm.
 
 import os
 import threading
-
 import httpx
 from dotenv import load_dotenv
 from ollama import Ollama
