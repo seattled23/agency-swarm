@@ -1,0 +1,92 @@
+{
+    "project_name": "Crypto Trading Agency Development",
+    "start_date": "2024-01-29T00:00:00",
+    "end_date": "2024-02-29T00:00:00",
+    "duration": "30d",
+    "milestones": [
+        {
+            "id": "m1",
+            "name": "Market Analysis System",
+            "description": "Complete market analysis tools and integration",
+            "deadline": "2024-02-05T00:00:00",
+            "dependencies": [],
+            "deliverables": [
+                "Enhanced technical analysis tool",
+                "Real-time market data integration",
+                "ML-based prediction system"
+            ],
+            "assigned_agents": ["market_analyst"]
+        },
+        {
+            "id": "m2",
+            "name": "Strategy Development System",
+            "description": "Implement trading strategy development and testing",
+            "deadline": "2024-02-12T00:00:00",
+            "dependencies": ["m1"],
+            "deliverables": [
+                "Strategy backtesting framework",
+                "Risk management integration",
+                "Performance analytics"
+            ],
+            "assigned_agents": ["strategy_developer", "risk_manager"]
+        },
+        {
+            "id": "m3",
+            "name": "Execution System",
+            "description": "Build order execution and management system",
+            "deadline": "2024-02-19T00:00:00",
+            "dependencies": ["m2"],
+            "deliverables": [
+                "Order execution engine",
+                "Position management system",
+                "Portfolio balancing"
+            ],
+            "assigned_agents": ["execution_manager"]
+        },
+        {
+            "id": "m4",
+            "name": "Integration and Testing",
+            "description": "System integration and comprehensive testing",
+            "deadline": "2024-02-26T00:00:00",
+            "dependencies": ["m1", "m2", "m3"],
+            "deliverables": [
+                "Integrated system tests",
+                "Performance optimization",
+                "Documentation"
+            ],
+            "assigned_agents": ["testing_agent", "planning_agent"]
+        }
+    ],
+    "dependencies": [
+        {
+            "id": "d1",
+            "type": "data_flow",
+            "source": "market_analyst",
+            "target": "strategy_developer",
+            "deadline": "2024-02-07T00:00:00",
+            "complexity": "high",
+            "impact": "high",
+            "uncertainty": "medium"
+        },
+        {
+            "id": "d2",
+            "type": "system_integration",
+            "source": "strategy_developer",
+            "target": "execution_manager",
+            "deadline": "2024-02-14T00:00:00",
+            "complexity": "high",
+            "impact": "high",
+            "uncertainty": "medium"
+        },
+        {
+            "id": "d3",
+            "type": "validation",
+            "source": "risk_manager",
+            "target": "execution_manager",
+            "deadline": "2024-02-16T00:00:00",
+            "complexity": "medium",
+            "impact": "high",
+            "uncertainty": "low"
+        }
+    ]
+} 

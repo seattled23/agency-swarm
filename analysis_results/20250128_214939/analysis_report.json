@@ -1,0 +1,60 @@
+{
+    "timestamp": "2025-01-28T21:49:39.973032",
+    "components": {
+        "planning_agent": {
+            "performance": {
+                "component": "planning_agent",
+                "metrics": {
+                    "response_time": "0.1ms",
+                    "throughput": "14286 ops/sec",
+                    "error_rate": "0.0%",
+                    "latency": "0.0ms"
+                },
+                "bottlenecks": [],
+                "predictions": {
+                    "cpu_usage_trend": "decreasing",
+                    "memory_usage_trend": "decreasing",
+                    "estimated_time_to_threshold": "stable"
+                }
+            },
+            "resources": {
+                "component": "planning_agent",
+                "resources": {
+                    "cpu_usage": "0.2%",
+                    "memory_usage": "28.3%",
+                    "disk_usage": "0.8%"
+                },
+                "allocation": {
+                    "recommended_cpu_cores": 1,
+                    "recommended_memory": "2597MB",
+                    "scaling_factor": 1.0
+                },
+                "recommendations": []
+            },
+            "capabilities": {
+                "component": "planning_agent",
+                "capabilities": {
+                    "supported_operations": [
+                        "batch_processing",
+                        "stream_processing",
+                        "data_transformation",
+                        "validation"
+                    ],
+                    "processing_capacity": "High",
+                    "scalability": "Dynamic",
+                    "reliability": "High"
+                },
+                "validation": {
+                    "batch_processing": "validated",
+                    "stream_processing": "validated",
+                    "transformation": "validated"
+                },
+                "scaling_potential": {
+                    "horizontal_scaling": "supported",
+                    "vertical_scaling": "supported",
+                    "recommended_scaling_strategy": "horizontal"
+                }
+            }
+        }
+    }
+}

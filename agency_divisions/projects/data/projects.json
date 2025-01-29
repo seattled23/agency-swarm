@@ -1,0 +1,43 @@
+{
+  "projects": [
+    {
+      "id": "PROJ-1",
+      "name": "Agency Restructuring",
+      "description": "Complete reorganization of the agency into seven specialized divisions with clear responsibilities and efficient workflows",
+      "objectives": [
+        "Create and implement division structure",
+        "Set up task and project management systems",
+        "Establish inter-division communication protocols",
+        "Implement standard operating procedures",
+        "Deploy fully integrated agency structure"
+      ],
+      "divisions_involved": [
+        "Planning",
+        "Internal Operations",
+        "Analysis",
+        "Projects",
+        "Upgrades",
+        "Research",
+        "Data Management"
+      ],
+      "status": "In Progress",
+      "priority": "High",
+      "start_date": "2024-01-29",
+      "end_date": "2024-02-29",
+      "created_at": "2024-01-29T00:00:00",
+      "updated_at": "2024-01-29T00:00:00",
+      "tasks": [
+        "TASK-1",
+        "TASK-2",
+        "TASK-3",
+        "TASK-4",
+        "TASK-5",
+        "TASK-6",
+        "TASK-7",
+        "TASK-8",
+        "TASK-9",
+        "TASK-10"
+      ]
+    }
+  ]
+} 

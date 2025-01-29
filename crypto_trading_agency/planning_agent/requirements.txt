@@ -1,0 +1,11 @@
+agency-swarm>=1.0.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+networkx>=3.0
+numpy>=1.24.0
+asyncio>=3.4.3
+uuid>=1.30
+dataclasses>=0.6
+typing>=3.7.4
+pathlib>=1.0.1
+sqlite3>=3.0.0 

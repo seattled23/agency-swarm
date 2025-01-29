@@ -1,0 +1,61 @@
+{
+  "agents": {
+    "PlanningAgent": {
+      "division": "Planning",
+      "description": "Expert in workflow planning, analysis, optimization, and process enhancement",
+      "status": "active"
+    },
+    "MarketAnalyst": {
+      "division": "Analysis",
+      "description": "Expert in market analysis, trend identification, and trading strategy development",
+      "status": "pending"
+    },
+    "RiskManager": {
+      "division": "Analysis",
+      "description": "Expert in managing trading risks and position sizing",
+      "status": "pending"
+    },
+    "ExecutionManager": {
+      "division": "Projects",
+      "description": "Expert in executing trades and managing positions",
+      "status": "pending"
+    },
+    "TestingAgent": {
+      "division": "Projects",
+      "description": "Responsible for quality assurance, testing, and validation of all system components",
+      "status": "pending"
+    }
+  },
+  "communication_flows": [
+    ["PlanningAgent", "MarketAnalyst"],
+    ["PlanningAgent", "RiskManager"],
+    ["PlanningAgent", "ExecutionManager"],
+    ["PlanningAgent", "TestingAgent"],
+    ["MarketAnalyst", "RiskManager"],
+    ["MarketAnalyst", "ExecutionManager"],
+    ["RiskManager", "ExecutionManager"],
+    ["TestingAgent", "MarketAnalyst"],
+    ["TestingAgent", "RiskManager"],
+    ["TestingAgent", "ExecutionManager"]
+  ],
+  "division_structure": {
+    "Planning": {
+      "active_agents": ["PlanningAgent"],
+      "pending_agents": []
+    },
+    "Analysis": {
+      "active_agents": [],
+      "pending_agents": ["MarketAnalyst", "RiskManager"]
+    },
+    "Projects": {
+      "active_agents": [],
+      "pending_agents": ["ExecutionManager", "TestingAgent"]
+    }
+  },
+  "agent_priorities": {
+    "critical": ["MarketAnalyst", "RiskManager"],
+    "high": ["ExecutionManager", "TestingAgent"],
+    "medium": [],
+    "low": []
+  }
+} 

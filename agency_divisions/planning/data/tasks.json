@@ -1,0 +1,193 @@
+{
+  "tasks": {
+    "TASK-1": {
+      "id": "TASK-1",
+      "title": "Core Infrastructure Setup",
+      "status": "completed",
+      "priority": "critical",
+      "description": "Set up core infrastructure components for the agency"
+    },
+    "TASK-2": {
+      "id": "TASK-2",
+      "title": "Chain of Command Implementation",
+      "status": "completed",
+      "priority": "high",
+      "description": "Implement chain of command and communication flows"
+    },
+    "TASK-11": {
+      "id": "TASK-11",
+      "title": "Communication Infrastructure",
+      "status": "completed",
+      "priority": "critical",
+      "description": "Set up communication infrastructure between agents"
+    },
+    "TASK-12": {
+      "id": "TASK-12",
+      "title": "Agent Onboarding System",
+      "status": "completed",
+      "priority": "high",
+      "description": "Create system for onboarding new agents"
+    },
+    "TASK-13": {
+      "id": "TASK-13",
+      "title": "Training Material Development",
+      "status": "in_progress",
+      "priority": "medium",
+      "description": "Develop training materials for new agents"
+    },
+    "TASK-14": {
+      "id": "TASK-14",
+      "title": "Market Analysis Agent Core Setup",
+      "status": "completed",
+      "priority": "critical",
+      "description": "Set up core functionality for Market Analysis Agent"
+    },
+    "TASK-15": {
+      "id": "TASK-15",
+      "title": "Market Analysis Agent Implementation",
+      "status": "in_progress",
+      "priority": "critical",
+      "description": "Implement Market Analysis Agent functionality",
+      "subtasks": {
+        "TASK-15.1": {
+          "id": "TASK-15.1",
+          "title": "Core Agent Setup",
+          "status": "completed",
+          "description": "Set up core agent structure and configuration"
+        },
+        "TASK-15.2": {
+          "id": "TASK-15.2",
+          "title": "Market Analysis Tool",
+          "status": "completed",
+          "description": "Implement market analysis functionality"
+        },
+        "TASK-15.3": {
+          "id": "TASK-15.3",
+          "title": "Strategy Development Tool",
+          "status": "pending",
+          "description": "Implement strategy development capabilities"
+        },
+        "TASK-15.4": {
+          "id": "TASK-15.4",
+          "title": "Market Sentiment Analysis Tool",
+          "status": "pending",
+          "description": "Implement market sentiment analysis"
+        }
+      }
+    },
+    "TASK-23": {
+      "id": "TASK-23",
+      "title": "Agent Async Implementation",
+      "status": "in_progress",
+      "priority": "critical",
+      "description": "Implement asynchronous operation capabilities for all agents",
+      "subtasks": {
+        "TASK-23.1": {
+          "id": "TASK-23.1",
+          "title": "Async Framework Setup",
+          "status": "completed",
+          "description": "Set up base async framework and manager"
+        },
+        "TASK-23.2": {
+          "id": "TASK-23.2",
+          "title": "Agent Communication Queue System",
+          "status": "completed",
+          "description": "Implement async message queue system"
+        },
+        "TASK-23.3": {
+          "id": "TASK-23.3",
+          "title": "Agent State Management",
+          "status": "completed",
+          "description": "Implement async state management"
+        },
+        "TASK-23.4": {
+          "id": "TASK-23.4",
+          "title": "Error Handling and Recovery",
+          "status": "completed",
+          "description": "Implement async error handling and recovery"
+        },
+        "TASK-23.5": {
+          "id": "TASK-23.5",
+          "title": "Market Analysis Agent Async Update",
+          "status": "completed",
+          "description": "Update Market Analysis Agent for async operation"
+        }
+      }
+    },
+    "TASK-24": {
+      "id": "TASK-24",
+      "title": "Crypto Trading Project Migration",
+      "status": "on_hold",
+      "priority": "low",
+      "description": "Migrate and archive original crypto trading project",
+      "subtasks": {
+        "TASK-24.1": {
+          "id": "TASK-24.1",
+          "title": "Document Current State",
+          "status": "pending",
+          "description": "Document current state of crypto trading project"
+        },
+        "TASK-24.2": {
+          "id": "TASK-24.2",
+          "title": "Archive Code Repository",
+          "status": "pending",
+          "description": "Archive and document code repository"
+        },
+        "TASK-24.3": {
+          "id": "TASK-24.3",
+          "title": "Project Manager Assignment",
+          "status": "pending",
+          "description": "Assign project to project manager when available"
+        }
+      }
+    },
+    "TASK-25": {
+      "id": "TASK-25",
+      "title": "Risk Manager Agent Implementation",
+      "status": "in_progress",
+      "priority": "critical",
+      "description": "Implement Risk Manager Agent functionality",
+      "subtasks": {
+        "TASK-25.1": {
+          "id": "TASK-25.1",
+          "title": "Core Agent Setup",
+          "status": "completed",
+          "description": "Set up core agent structure and configuration"
+        },
+        "TASK-25.2": {
+          "id": "TASK-25.2",
+          "title": "Risk Assessment Tool",
+          "status": "completed",
+          "description": "Implement risk assessment functionality"
+        },
+        "TASK-25.3": {
+          "id": "TASK-25.3",
+          "title": "Position Sizing Tool",
+          "status": "pending",
+          "description": "Implement position sizing capabilities"
+        },
+        "TASK-25.4": {
+          "id": "TASK-25.4",
+          "title": "Market Conditions Tool",
+          "status": "pending",
+          "description": "Implement market conditions monitoring"
+        },
+        "TASK-25.5": {
+          "id": "TASK-25.5",
+          "title": "Signal Validation Tool",
+          "status": "pending",
+          "description": "Implement trading signal validation"
+        }
+      }
+    }
+  },
+  "task_states": {
+    "new": [],
+    "in_progress": ["TASK-13", "TASK-15", "TASK-23", "TASK-25"],
+    "completed": ["TASK-1", "TASK-2", "TASK-11", "TASK-12", "TASK-14"],
+    "on_hold": ["TASK-24"],
+    "blocked": []
+  },
+  "critical_tasks": ["TASK-15", "TASK-23", "TASK-25"],
+  "last_updated": "2024-03-19T10:30:00Z"
+} 

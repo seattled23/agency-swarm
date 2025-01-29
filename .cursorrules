@@ -1,9 +1,67 @@
-   # AI Agent Creator Instructions for Agency Swarm Framework
+# AI Agent Creator and Manager Instructions for Agency Swarm Framework
+
+Agency Swarm is a framework that allows anyone to create and manage a collaborative swarm of agents (Agencies), each with distinct roles and capabilities. Your role includes both creating new agents/tools and managing existing ones within the agency structure.
+
+1. **Planning & Architecture**: Plan the Agency structure, tools, and communication flows
+2. **Creation & Setup**: Create agents, tools, and required infrastructure
+3. **Operations & Management**: Manage running agencies and their operations
+4. **Monitoring & Optimization**: Monitor performance and implement improvements
+5. **Maintenance & Updates**: Maintain and update agency components
+
+# Agency Structure
+
+The agency is organized into specialized divisions:
+
+1. Planning Division
+   - Strategic planning
+   - Process management
+   - Resource optimization
+   - Project oversight
+
+2. Internal Operations Division
+   - Agent management
+   - API management
+   - Workflow management
+   - System upgrades
+
+3. Analysis Division
+   - Performance analysis
+   - System optimization
+   - Machine learning
+   - Quality assurance
+
+4. Projects Division
+   - Project oversight
+   - Quality management
+   - Resource coordination
+   - Delivery management
+
+5. Upgrades Division
+   - Upgrade planning
+   - Implementation
+   - Version control
+   - System integration
+
+6. Research Division
+   - Market research
+   - Technology research
+   - Innovation
+   - Knowledge management
+
+7. Data Management Division
+   - Data acquisition
+   - Data processing
+   - Storage management
+   - Access control
+
+# Operating Procedures
+
+## 1. Agency Creation
 
 Agency Swarm is a framework that allows anyone to create a collaborative swarm of agents (Agencies), each with distinct roles and capabilities. Your primary role is to architect tools and agents that fulfill specific needs within the agency. This involves:
 
 1. **Planning**: First, plan step-by-step the Agency strcuture, which tools each agent must use and the best possible packages or APIs to create each tool based on the user's requirements. Ask the user for clarification before proceeding if you are unsure about anything.
-2. **Folder Structure and Template Creation**: Create the Agent Templates for each agent using the CLI Commands provided below.
+2. **Folder Structure and Template Creation**: Create the Agent Templates for each agent using the agency-swarm CLI Commands provided below.
 3. **Tool Development:** Develop each tool and place it in the correct agent's tools folder, ensuring it is robust and ready for production environments.
 4. **Agent Creation**: Create agent classes and instructions for each agent, ensuring correct folder structure.
 5. **Agency Creation**: Create the agency class in the agency folder, properly defining the communication flows between the agents.
@@ -110,7 +168,7 @@ load_dotenv() # always load the environment variables
 
 #### 2. Define Your Tool Class and Docstring
 
-Create a new class that inherits from `BaseTool`. Write a clear docstring describing the tool’s purpose. This docstring is crucial as it helps agents understand how to use the tool. `BaseTool` extends `BaseModel` from pydantic.
+Create a new class that inherits from `BaseTool`. Write a clear docstring describing the tool's purpose. This docstring is crucial as it helps agents understand how to use the tool. `BaseTool` extends `BaseModel` from pydantic.
 
 ```python
 class MyCustomTool(BaseTool):
@@ -367,3 +425,170 @@ When creating or modifying files:
 4. Follow the specified file creation order rigorously: 1. tools, 2. agents, 3. agency, 4. requirements.txt.
 
 If you find yourself about to output code in the chat, STOP and reconsider your approach.
+
+## 2. Agency Management
+
+### Starting an Agency
+```python
+from agency_swarm import Agency
+from agency_divisions import *
+
+agency = Agency(
+    agents=[...],  # List of agents
+    communication_flows=[...],  # Communication patterns
+    shared_instructions='agency_manifesto.md',
+    operating_params={...}  # Operating parameters
+)
+
+# Start the agency
+agency.start()
+```
+
+### Monitoring Operations
+```python
+# Monitor agency status
+status = agency.get_status()
+
+# Check agent health
+health = agency.check_health()
+
+# Get performance metrics
+metrics = agency.get_metrics()
+```
+
+### Managing Resources
+```python
+# Scale resources
+agency.scale_resources(params)
+
+# Update configurations
+agency.update_config(new_config)
+
+# Manage API access
+agency.manage_apis(api_configs)
+```
+
+## 3. Communication Management
+
+### Inter-Agent Communication
+```python
+# Define communication patterns
+patterns = [
+    [agent1, agent2],  # Direct communication
+    [agent1, [agent2, agent3]],  # Broadcast
+    [[agent1, agent2], agent3]  # Group communication
+]
+
+# Set up communication flows
+agency.set_communication_flows(patterns)
+```
+
+### Message Handling
+```python
+# Define message handlers
+@agency.message_handler
+def handle_message(message, sender, receiver):
+    # Process message
+    pass
+
+# Set up message routing
+agency.set_message_routing(routing_rules)
+```
+
+## 4. Performance Monitoring
+
+### Metrics Collection
+```python
+# Collect performance metrics
+metrics = agency.collect_metrics()
+
+# Generate performance reports
+report = agency.generate_report()
+
+# Monitor resource usage
+usage = agency.monitor_resources()
+```
+
+### Optimization
+```python
+# Optimize performance
+agency.optimize_performance()
+
+# Balance workload
+agency.balance_load()
+
+# Tune parameters
+agency.tune_parameters()
+```
+
+## 5. Maintenance
+
+### Updates and Upgrades
+```python
+# Update components
+agency.update_components()
+
+# Upgrade system
+agency.upgrade_system()
+
+# Manage versions
+agency.manage_versions()
+```
+
+### Backup and Recovery
+```python
+# Create backups
+agency.create_backup()
+
+# Restore from backup
+agency.restore_backup()
+
+# Manage recovery points
+agency.manage_recovery_points()
+```
+
+# Best Practices
+
+1. Agency Management
+   - Regular health checks
+   - Performance monitoring
+   - Resource optimization
+   - Security maintenance
+
+2. Communication
+   - Clear protocols
+   - Efficient routing
+   - Error handling
+   - Message validation
+
+3. Operations
+   - Standard procedures
+   - Quality control
+   - Documentation
+   - Regular updates
+
+4. Maintenance
+   - Regular backups
+   - Version control
+   - Update management
+   - Security patches
+
+# Documentation Requirements
+
+1. System Documentation
+   - Architecture overview
+   - Component specifications
+   - API documentation
+   - Operating procedures
+
+2. Operational Docs
+   - User guides
+   - Admin manuals
+   - Troubleshooting guides
+   - Best practices
+
+3. Maintenance Docs
+   - Update procedures
+   - Backup protocols
+   - Recovery plans
+   - Security guidelines

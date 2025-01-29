@@ -1,0 +1,14 @@
+{
+    "project_id": "511150fe-2d21-405a-9d5e-1778718e65a0",
+    "status": "initialized",
+    "start_time": "2025-01-28T22:08:55.161103",
+    "last_update": "2025-01-28T22:08:55.373469",
+    "milestones": {},
+    "dependencies": {},
+    "progress": 0.0,
+    "active_tasks": [
+        "ecf4aceb-f5de-4989-99ce-45a1f9779e41"
+    ],
+    "completed_tasks": [],
+    "issues": []
+}
