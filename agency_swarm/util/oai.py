@@ -1,55 +1,49 @@
+"""
+OpenAI client utility functions for agency-swarm.
+"""
+
 import os
 import threading
 
 import httpx
-import openai
 from dotenv import load_dotenv
 from ollama import Ollama
 from agency_swarm import Agent
+from openai import OpenAI
+from typing import Optional
 
 load_dotenv()
 
 client_lock = threading.Lock()
-client = None
+_openai_client: Optional[OpenAI] = None
 
 ceo = Agent(name="ceo", description="I am the CEO", model='ollama/llama3')
 
-def get_openai_client():
-    global client
-    with client_lock:
-        if client is None:
-            # Check if the API key is set
-            api_key = openai.api_key or os.getenv("OPENAI_API_KEY")
-            if api_key is None:
-                raise ValueError(
-                    "OpenAI API key is not set. Please set it using set_openai_key."
-                )
-            client = openai.OpenAI(
-                api_key=api_key,
-                timeout=httpx.Timeout(60.0, read=40, connect=5.0),
-                max_retries=10,
-                default_headers={"OpenAI-Beta": "assistants=v2"},
-            )
-    return client
+def get_openai_client() -> OpenAI:
+    """Get the OpenAI client instance."""
+    global _openai_client
+    if _openai_client is None:
+        raise ValueError("OpenAI client not initialized. Call set_openai_key() or set_openai_client() first.")
+    return _openai_client
 
+def set_openai_key(api_key: str) -> None:
+    """Set the OpenAI API key and initialize the client."""
+    global _openai_client
+    _openai_client = OpenAI(api_key=api_key)
 
-def set_openai_client():
-    global client
-    client = Ollama(
-        model_path="path/to/your/local/ollama/model",
-        timeout=5,
-        max_retries=5,
-    )
-    return client
+def set_openai_client(client: OpenAI) -> None:
+    """Set a custom OpenAI client instance."""
+    global _openai_client
+    _openai_client = client
 
-
-def set_openai_key(key):
-    if not key:
-        raise ValueError("Invalid API key. The API key cannot be empty.")
-    openai.api_key = key
-    global client
-    with client_lock:
-        client = None
+def init_openai(api_key: Optional[str] = None, client: Optional[OpenAI] = None) -> None:
+    """Initialize OpenAI with either an API key or client instance."""
+    if client is not None:
+        set_openai_client(client)
+    elif api_key is not None:
+        set_openai_key(api_key)
+    else:
+        raise ValueError("Either api_key or client must be provided")
 
 ## Using Local Ollama Models
 
