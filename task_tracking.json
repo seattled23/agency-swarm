@@ -162,11 +162,65 @@
             "priority": "medium",
             "dependencies": [],
             "subtasks": []
+        },
+        "TASK-28": {
+            "id": "TASK-28",
+            "title": "Agent Dashboard Implementation",
+            "description": "Implement and test the real-time agent monitoring dashboard",
+            "status": "in_progress",
+            "priority": "high",
+            "dependencies": ["TASK-27"],
+            "subtasks": [
+                "TASK-28.1",
+                "TASK-28.2",
+                "TASK-28.3",
+                "TASK-28.4"
+            ]
+        },
+        "TASK-28.1": {
+            "id": "TASK-28.1",
+            "title": "Dashboard UI Implementation",
+            "description": "Implement the terminal-based UI for the agent dashboard using rich library",
+            "status": "completed",
+            "priority": "high",
+            "dependencies": [],
+            "subtasks": []
+        },
+        "TASK-28.2": {
+            "id": "TASK-28.2",
+            "title": "Agent Status Monitoring",
+            "description": "Implement real-time agent status monitoring and metrics collection",
+            "status": "completed",
+            "priority": "high",
+            "dependencies": ["TASK-28.1"],
+            "subtasks": []
+        },
+        "TASK-28.3": {
+            "id": "TASK-28.3",
+            "title": "Async Dashboard Operations",
+            "description": "Implement asynchronous operations for the dashboard",
+            "status": "completed",
+            "priority": "critical",
+            "dependencies": ["TASK-28.2"],
+            "subtasks": []
+        },
+        "TASK-28.4": {
+            "id": "TASK-28.4",
+            "title": "Full Dashboard Testing",
+            "description": "Test the dashboard with multiple agents and real-time updates",
+            "status": "pending",
+            "priority": "high",
+            "dependencies": ["TASK-28.3"],
+            "subtasks": []
         }
     },
     "task_states": {
-        "pending": [],
-        "in_progress": [],
+        "pending": [
+            "TASK-28.4"
+        ],
+        "in_progress": [
+            "TASK-28"
+        ],
         "completed": [
             "TASK-1",
             "TASK-2",
@@ -181,7 +235,10 @@
             "TASK-27",
             "TASK-27.1",
             "TASK-27.2",
-            "TASK-27.3"
+            "TASK-27.3",
+            "TASK-28.1",
+            "TASK-28.2",
+            "TASK-28.3"
         ],
         "on_hold": [
             "TASK-24"

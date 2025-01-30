@@ -1,5 +1,5 @@
 from agency_swarm.tools import BaseTool
-from pydantic import Field
+from pydantic import Field, PrivateAttr
 import asyncio
 from typing import Dict, List, Any, Optional
 from datetime import datetime, timedelta
@@ -45,14 +45,30 @@ class AgentDashboard(BaseTool):
         {}, description="Data for the operation (agent status, metrics, etc.)"
     )
 
+    # Private attributes that won't be included in the model's schema
+    _logger: logging.Logger = PrivateAttr()
+    _console: Console = PrivateAttr()
+    _agent_statuses: Dict[str, AgentStatus] = PrivateAttr(default_factory=dict)
+    _start_time: float = PrivateAttr(default=time.time())
+    _is_running: bool = PrivateAttr(default=False)
+    _layout: Layout = PrivateAttr()
+    _active_conversations: Dict[str, List[Dict]] = PrivateAttr(default_factory=dict)
+
+    class ToolConfig:
+        """Tool configuration"""
+        strict: bool = True
+        one_call_at_a_time: bool = False
+        output_as_result: bool = True
+        async_mode: str = "async"  # Enable async mode
+
     def __init__(self, **data):
         super().__init__(**data)
         self.setup_logging()
-        self.console = Console()
-        self.agent_statuses: Dict[str, AgentStatus] = {}
-        self.start_time = time.time()
-        self.is_running = False
-        self.layout = self._create_layout()
+        self._console = Console()
+        self._agent_statuses = {}
+        self._start_time = time.time()
+        self._is_running = False
+        self._layout = self._create_layout()
 
     def setup_logging(self):
         """Sets up logging for the dashboard"""
@@ -64,21 +80,35 @@ class AgentDashboard(BaseTool):
             level=logging.INFO,
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
-        self.logger = logging.getLogger('AgentDashboard')
+        self._logger = logging.getLogger('AgentDashboard')
 
     def _create_layout(self) -> Layout:
         """Creates the dashboard layout"""
         layout = Layout()
         
+        # Split into header, main content, input area, and footer
         layout.split(
             Layout(name="header", size=3),
             Layout(name="main"),
+            Layout(name="input", size=3),
             Layout(name="footer", size=3)
         )
         
+        # Split main area into three sections
         layout["main"].split_row(
+            Layout(name="left_panel", ratio=2),
+            Layout(name="right_panel", ratio=1)
+        )
+        
+        # Split left panel into agents and communication
+        layout["left_panel"].split(
             Layout(name="agents", ratio=2),
-            Layout(name="metrics", ratio=1)
+            Layout(name="communication", ratio=1)
+        )
+        
+        # Right panel is for metrics
+        layout["right_panel"].split(
+            Layout(name="metrics")
         )
         
         return layout
@@ -89,7 +119,7 @@ class AgentDashboard(BaseTool):
         grid.add_column(justify="center", ratio=1)
         
         title = Text("Agent Swarm Dashboard", style="bold blue")
-        subtitle = Text(f"System Uptime: {self._format_uptime(time.time() - self.start_time)}")
+        subtitle = Text(f"System Uptime: {self._format_uptime(time.time() - self._start_time)}")
         
         grid.add_row(title)
         grid.add_row(subtitle)
@@ -108,7 +138,7 @@ class AgentDashboard(BaseTool):
         table.add_column("Memory %", justify="right", style="blue")
         table.add_column("Last Updated", style="dim")
         
-        for agent_name, status in sorted(self.agent_statuses.items()):
+        for agent_name, status in sorted(self._agent_statuses.items()):
             table.add_row(
                 agent_name,
                 self._get_status_style(status.status),
@@ -133,13 +163,35 @@ class AgentDashboard(BaseTool):
         
         table.add_row("System CPU Usage", f"{cpu_percent}%")
         table.add_row("System Memory Usage", f"{memory.percent}%")
-        table.add_row("Active Agents", str(len(self.agent_statuses)))
+        table.add_row("Active Agents", str(len(self._agent_statuses)))
         
         # Calculate total message queue size
-        total_queue_size = sum(status.message_queue_size for status in self.agent_statuses.values())
+        total_queue_size = sum(status.message_queue_size for status in self._agent_statuses.values())
         table.add_row("Total Queue Size", str(total_queue_size))
         
         return Panel(table, title="System Metrics", border_style="green")
+
+    def _generate_communication_panel(self) -> Panel:
+        """Generates the communication panel with message history"""
+        messages = []
+        for conv_key, conv_messages in self._active_conversations.items():
+            for msg in conv_messages[-5:]:  # Show last 5 messages of each conversation
+                sender_style = "blue" if msg.sender == "user" else "green"
+                messages.append(Text(f"{msg.timestamp} {msg.sender}: ", style=sender_style))
+                messages.append(Text(f"{msg.content}\n"))
+        
+        return Panel(
+            "\n".join([str(m) for m in messages]) if messages else "No messages yet",
+            title="Communication",
+            border_style="cyan"
+        )
+
+    def _generate_input_panel(self) -> Panel:
+        """Generates the input panel for user messages"""
+        return Panel(
+            Text("Type your message and press Enter to send", justify="center"),
+            style="white on blue"
+        )
 
     def _generate_footer(self) -> Panel:
         """Generates the dashboard footer"""
@@ -163,9 +215,27 @@ class AgentDashboard(BaseTool):
         """Formats uptime duration"""
         return str(timedelta(seconds=int(seconds)))
 
+    def run(self) -> Dict[str, Any]:
+        """
+        Main run method required by BaseTool
+        """
+        try:
+            if self.operation == "start_dashboard":
+                return asyncio.run(self._start_dashboard())
+            elif self.operation == "update_agent_status":
+                return asyncio.run(self._update_agent_status())
+            elif self.operation == "stop_dashboard":
+                return asyncio.run(self._stop_dashboard())
+            else:
+                raise ValueError(f"Unknown operation: {self.operation}")
+            
+        except Exception as e:
+            self._logger.error(f"Error in dashboard operation: {str(e)}")
+            raise
+
     async def run_async(self) -> Dict[str, Any]:
         """
-        Asynchronously executes dashboard operations
+        Async version of the run method
         """
         try:
             if self.operation == "start_dashboard":
@@ -178,33 +248,29 @@ class AgentDashboard(BaseTool):
                 raise ValueError(f"Unknown operation: {self.operation}")
             
         except Exception as e:
-            self.logger.error(f"Error in dashboard operation: {str(e)}")
+            self._logger.error(f"Error in dashboard operation: {str(e)}")
             raise
-
-    def run(self) -> Dict[str, Any]:
-        """
-        Synchronous wrapper for dashboard operations
-        """
-        return asyncio.run(self.run_async())
 
     async def _start_dashboard(self) -> Dict[str, Any]:
         """Starts the dashboard display"""
         try:
-            self.is_running = True
+            self._is_running = True
             
-            with Live(self.layout, refresh_per_second=2) as live:
-                while self.is_running:
-                    self.layout["header"].update(self._generate_header())
-                    self.layout["agents"].update(self._generate_agent_table())
-                    self.layout["metrics"].update(self._generate_metrics_panel())
-                    self.layout["footer"].update(self._generate_footer())
+            with Live(self._layout, refresh_per_second=2) as live:
+                while self._is_running:
+                    self._layout["header"].update(self._generate_header())
+                    self._layout["agents"].update(self._generate_agent_table())
+                    self._layout["communication"].update(self._generate_communication_panel())
+                    self._layout["metrics"].update(self._generate_metrics_panel())
+                    self._layout["input"].update(self._generate_input_panel())
+                    self._layout["footer"].update(self._generate_footer())
                     
                     await asyncio.sleep(0.5)
             
             return {"status": "success", "message": "Dashboard stopped"}
             
         except Exception as e:
-            self.logger.error(f"Error starting dashboard: {str(e)}")
+            self._logger.error(f"Error starting dashboard: {str(e)}")
             raise
 
     async def _update_agent_status(self) -> Dict[str, Any]:
@@ -216,7 +282,7 @@ class AgentDashboard(BaseTool):
             if not agent_name:
                 raise ValueError("Agent name is required")
             
-            self.agent_statuses[agent_name] = AgentStatus(
+            self._agent_statuses[agent_name] = AgentStatus(
                 name=agent_name,
                 status=agent_data.get("status", "unknown"),
                 current_task=agent_data.get("current_task"),
@@ -234,24 +300,24 @@ class AgentDashboard(BaseTool):
             }
             
         except Exception as e:
-            self.logger.error(f"Error updating agent status: {str(e)}")
+            self._logger.error(f"Error updating agent status: {str(e)}")
             raise
 
     async def _stop_dashboard(self) -> Dict[str, Any]:
         """Stops the dashboard display"""
         try:
-            self.is_running = False
+            self._is_running = False
             return {"status": "success", "message": "Dashboard stopped"}
             
         except Exception as e:
-            self.logger.error(f"Error stopping dashboard: {str(e)}")
+            self._logger.error(f"Error stopping dashboard: {str(e)}")
             raise
 
 if __name__ == "__main__":
     # Test the dashboard
     async def test():
         dashboard = AgentDashboard(operation="start_dashboard", data={})
-        dashboard_task = asyncio.create_task(dashboard.run_async())
+        dashboard_task = asyncio.create_task(dashboard.run())
         
         # Simulate agent updates
         for i in range(3):
@@ -267,11 +333,11 @@ if __name__ == "__main__":
                     "uptime": i * 10
                 }
             }
-            await dashboard.run_async()
+            await dashboard.run()
             await asyncio.sleep(2)
         
         dashboard.operation = "stop_dashboard"
-        await dashboard.run_async()
+        await dashboard.run()
         await dashboard_task
     
     asyncio.run(test()) 

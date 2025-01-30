@@ -6,8 +6,6 @@ import os
 import threading
 import httpx
 from dotenv import load_dotenv
-from ollama import Ollama
-from agency_swarm import Agent
 from openai import OpenAI
 from typing import Optional
 
@@ -15,8 +13,6 @@ load_dotenv()
 
 client_lock = threading.Lock()
 _openai_client: Optional[OpenAI] = None
-
-ceo = Agent(name="ceo", description="I am the CEO", model='ollama/llama3')
 
 def get_openai_client() -> OpenAI:
     """Get the OpenAI client instance."""
@@ -43,12 +39,3 @@ def init_openai(api_key: Optional[str] = None, client: Optional[OpenAI] = None) 
         set_openai_key(api_key)
     else:
         raise ValueError("Either api_key or client must be provided")
-
-## Using Local Ollama Models
-
-To use local Ollama models with agency-swarm, follow these steps:
-
-**1. Install the required dependencies:**
-
-```sh
-pip install ollama
