@@ -25,11 +25,11 @@ class CommunicationAgent(BaseTool):
     Tool for handling communication between user and agents.
     Manages message routing, history, and real-time updates.
     """
-    
+
     operation: str = Field(
         ..., description="Operation to perform ('send_message', 'get_messages', 'update_status')"
     )
-    
+
     data: Dict = Field(
         {}, description="Data for the operation (message content, status updates, etc.)"
     )
@@ -60,7 +60,7 @@ class CommunicationAgent(BaseTool):
         """Sets up logging for the communication agent"""
         log_dir = "agency_divisions/internal_operations/logs/communication"
         os.makedirs(log_dir, exist_ok=True)
-        
+
         logging.basicConfig(
             filename=f"{log_dir}/communication.log",
             level=logging.INFO,
@@ -86,7 +86,7 @@ class CommunicationAgent(BaseTool):
     async def _send_message(self) -> Dict[str, Any]:
         """Sends a message and manages its routing"""
         message_data = self.data.get("message", {})
-        
+
         message = Message(
             sender=message_data.get("sender"),
             recipient=message_data.get("recipient"),
@@ -95,17 +95,17 @@ class CommunicationAgent(BaseTool):
             message_type=message_data.get("type", "user_to_agent"),
             status="sent"
         )
-        
+
         # Add to history and queue
         self._message_history.append(message)
         self._message_queue.put(message)
-        
+
         # Update active conversations
         conv_key = f"{message.sender}-{message.recipient}"
         if conv_key not in self._active_conversations:
             self._active_conversations[conv_key] = []
         self._active_conversations[conv_key].append(message)
-        
+
         return {
             "status": "success",
             "message_id": len(self._message_history) - 1,
@@ -116,7 +116,7 @@ class CommunicationAgent(BaseTool):
         """Retrieves messages based on filters"""
         filters = self.data.get("filters", {})
         messages = []
-        
+
         for msg in self._message_history:
             if self._matches_filters(msg, filters):
                 messages.append({
@@ -127,7 +127,7 @@ class CommunicationAgent(BaseTool):
                     "type": msg.message_type,
                     "status": msg.status
                 })
-        
+
         return {
             "status": "success",
             "messages": messages
@@ -138,7 +138,7 @@ class CommunicationAgent(BaseTool):
         update_data = self.data.get("update", {})
         message_id = update_data.get("message_id")
         new_status = update_data.get("status")
-        
+
         if 0 <= message_id < len(self._message_history):
             self._message_history[message_id].status = new_status
             return {"status": "success", "message_id": message_id}
@@ -163,13 +163,13 @@ if __name__ == "__main__":
                 "type": "user_to_agent"
             }
         })
-        
+
         result = await agent.run_async()
         print(f"Send message result: {result}")
-        
+
         agent.operation = "get_messages"
         agent.data = {"filters": {"sender": "user"}}
         messages = await agent.run_async()
         print(f"Retrieved messages: {messages}")
-    
-    asyncio.run(test()) 
+
+    asyncio.run(test())

@@ -36,11 +36,11 @@ class AgentDashboard(BaseTool):
     Tool for displaying a real-time dashboard of agent activity and system metrics.
     Provides visual monitoring of agent status, tasks, and performance metrics.
     """
-    
+
     operation: str = Field(
         ..., description="Operation to perform ('start_dashboard', 'update_agent_status', 'stop_dashboard')"
     )
-    
+
     data: Dict = Field(
         {}, description="Data for the operation (agent status, metrics, etc.)"
     )
@@ -74,7 +74,7 @@ class AgentDashboard(BaseTool):
         """Sets up logging for the dashboard"""
         log_dir = "agency_divisions/internal_operations/logs/dashboard"
         os.makedirs(log_dir, exist_ok=True)
-        
+
         logging.basicConfig(
             filename=f"{log_dir}/dashboard.log",
             level=logging.INFO,
@@ -85,7 +85,7 @@ class AgentDashboard(BaseTool):
     def _create_layout(self) -> Layout:
         """Creates the dashboard layout"""
         layout = Layout()
-        
+
         # Split into header, main content, input area, and footer
         layout.split(
             Layout(name="header", size=3),
@@ -93,43 +93,43 @@ class AgentDashboard(BaseTool):
             Layout(name="input", size=3),
             Layout(name="footer", size=3)
         )
-        
+
         # Split main area into three sections
         layout["main"].split_row(
             Layout(name="left_panel", ratio=2),
             Layout(name="right_panel", ratio=1)
         )
-        
+
         # Split left panel into agents and communication
         layout["left_panel"].split(
             Layout(name="agents", ratio=2),
             Layout(name="communication", ratio=1)
         )
-        
+
         # Right panel is for metrics
         layout["right_panel"].split(
             Layout(name="metrics")
         )
-        
+
         return layout
 
     def _generate_header(self) -> Panel:
         """Generates the dashboard header"""
         grid = Table.grid(expand=True)
         grid.add_column(justify="center", ratio=1)
-        
+
         title = Text("Agent Swarm Dashboard", style="bold blue")
         subtitle = Text(f"System Uptime: {self._format_uptime(time.time() - self._start_time)}")
-        
+
         grid.add_row(title)
         grid.add_row(subtitle)
-        
+
         return Panel(grid, style="white on blue")
 
     def _generate_agent_table(self) -> Table:
         """Generates the agent status table"""
         table = Table(title="Agent Status", expand=True)
-        
+
         table.add_column("Agent", style="cyan", no_wrap=True)
         table.add_column("Status", style="magenta")
         table.add_column("Current Task", style="green")
@@ -137,7 +137,7 @@ class AgentDashboard(BaseTool):
         table.add_column("CPU %", justify="right", style="red")
         table.add_column("Memory %", justify="right", style="blue")
         table.add_column("Last Updated", style="dim")
-        
+
         for agent_name, status in sorted(self._agent_statuses.items()):
             table.add_row(
                 agent_name,
@@ -148,7 +148,7 @@ class AgentDashboard(BaseTool):
                 f"{status.memory_usage:.1f}%",
                 status.last_updated
             )
-        
+
         return table
 
     def _generate_metrics_panel(self) -> Panel:
@@ -156,19 +156,19 @@ class AgentDashboard(BaseTool):
         table = Table.grid(expand=True)
         table.add_column("Metric", style="bold")
         table.add_column("Value", justify="right")
-        
+
         # System metrics
         cpu_percent = psutil.cpu_percent()
         memory = psutil.virtual_memory()
-        
+
         table.add_row("System CPU Usage", f"{cpu_percent}%")
         table.add_row("System Memory Usage", f"{memory.percent}%")
         table.add_row("Active Agents", str(len(self._agent_statuses)))
-        
+
         # Calculate total message queue size
         total_queue_size = sum(status.message_queue_size for status in self._agent_statuses.values())
         table.add_row("Total Queue Size", str(total_queue_size))
-        
+
         return Panel(table, title="System Metrics", border_style="green")
 
     def _generate_communication_panel(self) -> Panel:
@@ -179,7 +179,7 @@ class AgentDashboard(BaseTool):
                 sender_style = "blue" if msg.sender == "user" else "green"
                 messages.append(Text(f"{msg.timestamp} {msg.sender}: ", style=sender_style))
                 messages.append(Text(f"{msg.content}\n"))
-        
+
         return Panel(
             "\n".join([str(m) for m in messages]) if messages else "No messages yet",
             title="Communication",
@@ -228,7 +228,7 @@ class AgentDashboard(BaseTool):
                 return asyncio.run(self._stop_dashboard())
             else:
                 raise ValueError(f"Unknown operation: {self.operation}")
-            
+
         except Exception as e:
             self._logger.error(f"Error in dashboard operation: {str(e)}")
             raise
@@ -246,7 +246,7 @@ class AgentDashboard(BaseTool):
                 return await self._stop_dashboard()
             else:
                 raise ValueError(f"Unknown operation: {self.operation}")
-            
+
         except Exception as e:
             self._logger.error(f"Error in dashboard operation: {str(e)}")
             raise
@@ -255,7 +255,7 @@ class AgentDashboard(BaseTool):
         """Starts the dashboard display"""
         try:
             self._is_running = True
-            
+
             with Live(self._layout, refresh_per_second=2) as live:
                 while self._is_running:
                     self._layout["header"].update(self._generate_header())
@@ -264,11 +264,11 @@ class AgentDashboard(BaseTool):
                     self._layout["metrics"].update(self._generate_metrics_panel())
                     self._layout["input"].update(self._generate_input_panel())
                     self._layout["footer"].update(self._generate_footer())
-                    
+
                     await asyncio.sleep(0.5)
-            
+
             return {"status": "success", "message": "Dashboard stopped"}
-            
+
         except Exception as e:
             self._logger.error(f"Error starting dashboard: {str(e)}")
             raise
@@ -278,10 +278,10 @@ class AgentDashboard(BaseTool):
         try:
             agent_data = self.data.get("agent_status", {})
             agent_name = agent_data.get("name")
-            
+
             if not agent_name:
                 raise ValueError("Agent name is required")
-            
+
             self._agent_statuses[agent_name] = AgentStatus(
                 name=agent_name,
                 status=agent_data.get("status", "unknown"),
@@ -293,12 +293,12 @@ class AgentDashboard(BaseTool):
                 uptime=agent_data.get("uptime", 0.0),
                 last_updated=datetime.now().strftime("%H:%M:%S")
             )
-            
+
             return {
                 "status": "success",
                 "agent": agent_name
             }
-            
+
         except Exception as e:
             self._logger.error(f"Error updating agent status: {str(e)}")
             raise
@@ -308,7 +308,7 @@ class AgentDashboard(BaseTool):
         try:
             self._is_running = False
             return {"status": "success", "message": "Dashboard stopped"}
-            
+
         except Exception as e:
             self._logger.error(f"Error stopping dashboard: {str(e)}")
             raise
@@ -318,7 +318,7 @@ if __name__ == "__main__":
     async def test():
         dashboard = AgentDashboard(operation="start_dashboard", data={})
         dashboard_task = asyncio.create_task(dashboard.run())
-        
+
         # Simulate agent updates
         for i in range(3):
             dashboard.operation = "update_agent_status"
@@ -335,9 +335,9 @@ if __name__ == "__main__":
             }
             await dashboard.run()
             await asyncio.sleep(2)
-        
+
         dashboard.operation = "stop_dashboard"
         await dashboard.run()
         await dashboard_task
-    
-    asyncio.run(test()) 
+
+    asyncio.run(test())
