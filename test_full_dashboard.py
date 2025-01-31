@@ -1,14 +1,12 @@
 import asyncio
 import random
 from datetime import datetime
+from typing import Dict, List, Optional
 from agency_divisions.internal_operations.tools.agent_dashboard import AgentDashboard
 from agency_divisions.internal_operations.tools.communication_agent import CommunicationAgent
 from agency_divisions.task_management.task_manager import TaskManager
-import signal
-import sys
 import os
 from dotenv import load_dotenv
-import aioconsole
 
 # Load environment variables
 load_dotenv()
@@ -17,161 +15,200 @@ class MockAgent:
     def __init__(self, name, initial_status="initializing"):
         self.name = name
         self.status = initial_status
+        self.message_queue = []
         self.current_task = None
-        self.queue_size = 0
-        self.start_time = datetime.now().timestamp()
+        self.start_time = datetime.now()
+        self.message_history = []
+        self._running = True
 
     async def simulate_work(self):
-        """Simulate agent work and status changes"""
-        statuses = ["online", "busy", "processing", "waiting"]
+        statuses = ["running", "processing", "waiting", "analyzing"]
         tasks = [
             "Analyzing market data",
-            "Processing user request",
-            "Updating database",
-            "Communicating with other agents",
-            "Optimizing parameters",
-            "Generating report"
+            "Processing signals",
+            "Updating portfolio",
+            "Checking risk metrics",
+            "Optimizing strategy"
         ]
 
-        while True:
-            # Randomly change status and task
+        while self._running:
             self.status = random.choice(statuses)
             self.current_task = random.choice(tasks)
-            # Simulate message queue changes
-            queue_change = random.randint(-1, 2)
-            self.queue_size = max(0, self.queue_size + queue_change)
-            await asyncio.sleep(random.uniform(1.5, 4.0))
+            await asyncio.sleep(random.uniform(2, 5))
+
+    async def stop(self):
+        self._running = False
+        self.status = "stopped"
+        self.current_task = None
 
     async def handle_message(self, message: str) -> str:
-        """Handle incoming messages and generate responses"""
+        if not self._running:
+            return "Agent is stopped"
+        await asyncio.sleep(random.uniform(0.5, 2))  # Simulate processing time
         responses = [
-            f"Processing your request: {message}",
-            f"Working on it: {message}",
+            f"Processed request: {message}",
             f"Analyzing input: {message}",
-            f"Task received: {message}"
+            f"Executing command: {message}",
+            f"Evaluating message: {message}"
         ]
-        await asyncio.sleep(random.uniform(0.5, 2.0))  # Simulate processing time
-        return random.choice(responses)
+        response = random.choice(responses)
+        self.message_history.append({
+            "timestamp": datetime.now().isoformat(),
+            "received": message,
+            "sent": response
+        })
+        return response
 
 async def test_dashboard():
     # Create dashboard, communication agent, and task manager
-    dashboard = AgentDashboard(operation="start_dashboard", data={})
-    comm_agent = CommunicationAgent(operation="send_message", data={})
+    dashboard = AgentDashboard(
+        name="DashboardAgent",
+        operation="start_dashboard",
+        data={
+            "display_mode": "live",  # Enable live display mode
+            "refresh_rate": 1  # Update every second
+        }
+    )
+
+    # Start the dashboard display first
+    dashboard_task = asyncio.create_task(dashboard.run_async())
+
+    comm_agent = CommunicationAgent(
+        name="CommunicationAgent",
+        operation="send_message",
+        data={}
+    )
     task_manager = TaskManager()
+    await task_manager.initialize()
 
     # Create multiple mock agents
-    agents = [
-        MockAgent("MarketAnalyzer"),
-        MockAgent("RiskManager"),
-        MockAgent("DataProcessor"),
-        MockAgent("CommunicationHandler"),
-        MockAgent("TaskCoordinator")
-    ]
+    agents = {
+        name: MockAgent(name)
+        for name in ["MarketAnalyst", "RiskManager", "StrategyDeveloper", "ExecutionManager"]
+    }
 
-    try:
-        # Initialize task manager
-        await task_manager.initialize()
+    # Start agent simulation tasks
+    agent_tasks = [agent.simulate_work() for agent in agents.values()]
 
-        # Start the dashboard
-        dashboard_task = asyncio.create_task(dashboard.run_async())
-
-        # Start agent simulation tasks
-        agent_tasks = []
-        for agent in agents:
-            agent_tasks.append(asyncio.create_task(agent.simulate_work()))
-
-        # Create a task to update the dashboard with agent statuses
-        async def update_dashboard():
+    async def update_dashboard():
+        try:
             while True:
-                for agent in agents:
-                    status_data = {
-                        "name": agent.name,
-                        "status": agent.status,
-                        "current_task": agent.current_task,
-                        "message_queue_size": agent.queue_size,
-                        "cpu_usage": random.uniform(0.1, 5.0),
-                        "memory_usage": random.uniform(1.0, 8.0),
-                        "uptime": datetime.now().timestamp() - agent.start_time
+                # Update each agent's status
+                for agent_name, agent in agents.items():
+                    dashboard.data = {
+                        "agent_status": {
+                            "name": agent_name,
+                            "status": agent.status,
+                            "current_task": agent.current_task,
+                            "message_queue_size": len(agent.message_queue),
+                            "cpu_usage": random.uniform(0.1, 5.0),  # Simulated metrics
+                            "memory_usage": random.uniform(100, 500),  # Simulated metrics in MB
+                            "uptime": (datetime.now() - agent.start_time).total_seconds(),
+                            "last_message": agent.message_history[-1]["sent"] if agent.message_history else None
+                        }
                     }
-
                     dashboard.operation = "update_agent_status"
-                    dashboard.data = {"agent_status": status_data}
                     await dashboard.run_async()
+                await asyncio.sleep(1)
+        except asyncio.CancelledError:
+            # Update one last time with stopped status
+            for agent_name, agent in agents.items():
+                dashboard.data = {
+                    "agent_status": {
+                        "name": agent_name,
+                        "status": "stopped",
+                        "current_task": None,
+                        "message_queue_size": 0,
+                        "cpu_usage": 0,
+                        "memory_usage": 0,
+                        "uptime": (datetime.now() - agent.start_time).total_seconds(),
+                        "last_message": None
+                    }
+                }
+                dashboard.operation = "update_agent_status"
+                await dashboard.run_async()
+            raise
 
-                await asyncio.sleep(1)  # Update interval
-
-        # Create a task to handle user input and agent responses
-        async def handle_communication():
+    async def handle_communication():
+        try:
             while True:
                 try:
-                    # Get user input
-                    user_input = await aioconsole.ainput("")
-                    if user_input.lower() in ['quit', 'exit']:
-                        break
+                    # Simulate user input without aioconsole
+                    message = f"Test message {datetime.now().strftime('%H:%M:%S')}"
+                    target_agent = random.choice(list(agents.keys()))
 
-                    # Select a random agent to handle the message
-                    target_agent = random.choice(agents)
+                    # Process message
+                    response = await agents[target_agent].handle_message(message)
 
-                    # Send user message
-                    comm_agent.operation = "send_message"
+                    # Update communication agent with the message
                     comm_agent.data = {
                         "message": {
                             "sender": "user",
-                            "recipient": target_agent.name,
-                            "content": user_input,
+                            "recipient": target_agent,
+                            "content": message,
                             "type": "user_to_agent"
                         }
                     }
+                    comm_agent.operation = "send_message"
                     await comm_agent.run_async()
 
-                    # Get agent response
-                    response = await target_agent.handle_message(user_input)
-
-                    # Send agent response
+                    # Update communication agent with the response
                     comm_agent.data = {
                         "message": {
-                            "sender": target_agent.name,
+                            "sender": target_agent,
                             "recipient": "user",
                             "content": response,
                             "type": "agent_to_user"
                         }
                     }
+                    comm_agent.operation = "send_message"
                     await comm_agent.run_async()
 
+                    await asyncio.sleep(3)  # Wait before next message
                 except Exception as e:
                     print(f"Error in communication: {str(e)}")
-                    continue
+                    await asyncio.sleep(1)
+        except asyncio.CancelledError:
+            # Send final shutdown message
+            comm_agent.data = {
+                "message": {
+                    "sender": "system",
+                    "recipient": "all",
+                    "content": "System shutting down",
+                    "type": "system"
+                }
+            }
+            comm_agent.operation = "send_message"
+            await comm_agent.run_async()
+            raise
 
-        # Start the update and communication tasks
-        update_task = asyncio.create_task(update_dashboard())
-        comm_task = asyncio.create_task(handle_communication())
+    async def shutdown():
+        # Stop all agents
+        await asyncio.gather(*[agent.stop() for agent in agents.values()])
 
-        # Wait for all tasks
-        try:
-            await asyncio.gather(
-                dashboard_task,
-                update_task,
-                comm_task,
-                *agent_tasks
-            )
-        except KeyboardInterrupt:
-            # Cancel all tasks on Ctrl+C
-            update_task.cancel()
-            comm_task.cancel()
-            for task in agent_tasks:
-                task.cancel()
-            dashboard.operation = "stop_dashboard"
-            await dashboard.run_async()
-            await dashboard_task
+        # Update dashboard one last time
+        dashboard.operation = "stop_dashboard"
+        await dashboard.run_async()
 
-    except Exception as e:
-        print(f"Error in test: {str(e)}")
-        sys.exit(1)
+    try:
+        # Run all tasks concurrently
+        await asyncio.gather(
+            dashboard_task,  # Make sure dashboard task is included
+            update_dashboard(),
+            handle_communication(),
+            *agent_tasks
+        )
+    except (KeyboardInterrupt, asyncio.CancelledError):
+        print("\nShutting down gracefully...")
+        await shutdown()
+        print("Shutdown complete.")
 
 if __name__ == "__main__":
     try:
-        print("Starting full dashboard test with multiple agents...")
-        print("Type your messages in the input area. Type 'quit' or 'exit' to stop.")
         asyncio.run(test_dashboard())
     except KeyboardInterrupt:
-        print("\nTest completed successfully.")
+        print("\nDashboard test completed.")
+    except Exception as e:
+        print(f"\nError occurred: {str(e)}")
+    finally:
+        print("Exiting...")

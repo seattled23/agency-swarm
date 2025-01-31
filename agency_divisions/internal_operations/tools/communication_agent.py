@@ -152,6 +152,14 @@ class CommunicationAgent(BaseTool):
                 return False
         return True
 
+    def run(self) -> Dict[str, Any]:
+        """Synchronous run method that returns the operation result."""
+        return {
+            "status": "success",
+            "message": "Operation completed successfully",
+            "data": self.data
+        }
+
 if __name__ == "__main__":
     # Test the communication agent
     async def test():

@@ -176,9 +176,13 @@ class AgentDashboard(BaseTool):
         messages = []
         for conv_key, conv_messages in self._active_conversations.items():
             for msg in conv_messages[-5:]:  # Show last 5 messages of each conversation
-                sender_style = "blue" if msg.sender == "user" else "green"
-                messages.append(Text(f"{msg.timestamp} {msg.sender}: ", style=sender_style))
-                messages.append(Text(f"{msg.content}\n"))
+                if isinstance(msg, dict):
+                    timestamp = msg.get("timestamp", "")
+                    content = msg.get("content", "")
+                    sender = msg.get("sender", "unknown")
+                    sender_style = "blue" if sender == "user" else "green"
+                    messages.append(Text(f"{timestamp} {sender}: ", style=sender_style))
+                    messages.append(Text(f"{content}\n"))
 
         return Panel(
             "\n".join([str(m) for m in messages]) if messages else "No messages yet",
@@ -255,9 +259,12 @@ class AgentDashboard(BaseTool):
         """Starts the dashboard display"""
         try:
             self._is_running = True
+            console = Console()
 
-            with Live(self._layout, refresh_per_second=2) as live:
+            # Create a Live display context
+            with Live(self._layout, console=console, screen=True, refresh_per_second=4) as live:
                 while self._is_running:
+                    # Update all panels
                     self._layout["header"].update(self._generate_header())
                     self._layout["agents"].update(self._generate_agent_table())
                     self._layout["communication"].update(self._generate_communication_panel())
@@ -265,7 +272,10 @@ class AgentDashboard(BaseTool):
                     self._layout["input"].update(self._generate_input_panel())
                     self._layout["footer"].update(self._generate_footer())
 
-                    await asyncio.sleep(0.5)
+                    # Force a refresh of the display
+                    live.refresh()
+
+                    await asyncio.sleep(0.25)  # Refresh 4 times per second
 
             return {"status": "success", "message": "Dashboard stopped"}
 

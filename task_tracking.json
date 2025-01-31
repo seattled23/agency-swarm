@@ -1,248 +1,350 @@
 {
-    "tasks": {
-        "TASK-1": {
-            "id": "TASK-1",
-            "title": "Initial Project Setup",
-            "description": "Set up the basic project structure and dependencies",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": [],
-            "subtasks": []
-        },
-        "TASK-2": {
-            "id": "TASK-2",
-            "title": "Base Agent Implementation",
-            "description": "Implement the base agent class with core functionality",
-            "status": "completed",
-            "priority": "critical",
-            "dependencies": ["TASK-1"],
-            "subtasks": []
-        },
-        "TASK-11": {
-            "id": "TASK-11",
-            "title": "Market Analysis Agent Implementation",
-            "description": "Implement the market analysis agent",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": ["TASK-2"],
-            "subtasks": [
-                "TASK-11.1",
-                "TASK-11.2",
-                "TASK-11.3",
-                "TASK-11.4"
-            ]
-        },
-        "TASK-12": {
-            "id": "TASK-12",
-            "title": "Risk Manager Agent Implementation",
-            "description": "Implement the risk management agent",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": ["TASK-2"],
-            "subtasks": [
-                "TASK-12.1",
-                "TASK-12.2",
-                "TASK-12.3",
-                "TASK-12.4"
-            ]
-        },
-        "TASK-23": {
-            "id": "TASK-23",
-            "title": "Agent Async Implementation",
-            "description": "Implement asynchronous operation capabilities for all agents",
-            "status": "completed",
-            "priority": "critical",
-            "dependencies": ["TASK-2"],
-            "subtasks": [
-                "TASK-23.1",
-                "TASK-23.2",
-                "TASK-23.3",
-                "TASK-23.4"
-            ]
-        },
-        "TASK-24": {
-            "id": "TASK-24",
-            "title": "Crypto Trading Project Migration",
-            "description": "Migrate and archive the original crypto trading project",
-            "status": "on_hold",
-            "priority": "low",
-            "dependencies": [],
-            "subtasks": [
-                "TASK-24.1",
-                "TASK-24.2",
-                "TASK-24.3"
-            ]
-        },
-        "TASK-26": {
-            "id": "TASK-26",
-            "title": "Task Manager Agent Implementation",
-            "description": "Implement the task manager agent for coordinating task delegation",
-            "status": "completed",
-            "priority": "critical",
-            "dependencies": ["TASK-23"],
-            "subtasks": [
-                "TASK-26.1",
-                "TASK-26.2",
-                "TASK-26.3",
-                "TASK-26.4"
-            ]
-        },
-        "TASK-26.1": {
-            "id": "TASK-26.1",
-            "title": "Task Delegation Tool",
-            "description": "Implement the task delegation tool for managing task assignments",
-            "status": "completed",
-            "priority": "critical",
-            "dependencies": [],
-            "subtasks": []
-        },
-        "TASK-26.2": {
-            "id": "TASK-26.2",
-            "title": "Task Manager Agent Core",
-            "description": "Implement the core task manager agent functionality",
-            "status": "completed",
-            "priority": "critical",
-            "dependencies": ["TASK-26.1"],
-            "subtasks": []
-        },
-        "TASK-26.3": {
-            "id": "TASK-26.3",
-            "title": "Task Manager Instructions",
-            "description": "Create comprehensive instructions for the task manager agent",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": ["TASK-26.2"],
-            "subtasks": []
-        },
-        "TASK-26.4": {
-            "id": "TASK-26.4",
-            "title": "Task Manager Integration",
-            "description": "Integrate task manager with other agents and test functionality",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": ["TASK-26.3"],
-            "subtasks": []
-        },
-        "TASK-27": {
-            "id": "TASK-27",
-            "title": "Agent Communication Enhancement",
-            "description": "Enhance inter-agent communication with advanced message routing and handling",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": ["TASK-26"],
-            "subtasks": [
-                "TASK-27.1",
-                "TASK-27.2",
-                "TASK-27.3"
-            ]
-        },
-        "TASK-27.1": {
-            "id": "TASK-27.1",
-            "title": "Message Routing System",
-            "description": "Implement advanced message routing between agents",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": [],
-            "subtasks": []
-        },
-        "TASK-27.2": {
-            "id": "TASK-27.2",
-            "title": "Message Format Standardization",
-            "description": "Standardize message formats for inter-agent communication",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": [],
-            "subtasks": []
-        },
-        "TASK-27.3": {
-            "id": "TASK-27.3",
-            "title": "Communication Monitoring",
-            "description": "Implement monitoring and logging for inter-agent communication",
-            "status": "completed",
-            "priority": "medium",
-            "dependencies": [],
-            "subtasks": []
-        },
-        "TASK-28": {
-            "id": "TASK-28",
-            "title": "Agent Dashboard Implementation",
-            "description": "Implement and test the real-time agent monitoring dashboard",
-            "status": "in_progress",
-            "priority": "high",
-            "dependencies": ["TASK-27"],
-            "subtasks": [
-                "TASK-28.1",
-                "TASK-28.2",
-                "TASK-28.3",
-                "TASK-28.4"
-            ]
-        },
-        "TASK-28.1": {
-            "id": "TASK-28.1",
-            "title": "Dashboard UI Implementation",
-            "description": "Implement the terminal-based UI for the agent dashboard using rich library",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": [],
-            "subtasks": []
-        },
-        "TASK-28.2": {
-            "id": "TASK-28.2",
-            "title": "Agent Status Monitoring",
-            "description": "Implement real-time agent status monitoring and metrics collection",
-            "status": "completed",
-            "priority": "high",
-            "dependencies": ["TASK-28.1"],
-            "subtasks": []
-        },
-        "TASK-28.3": {
-            "id": "TASK-28.3",
-            "title": "Async Dashboard Operations",
-            "description": "Implement asynchronous operations for the dashboard",
-            "status": "completed",
-            "priority": "critical",
-            "dependencies": ["TASK-28.2"],
-            "subtasks": []
-        },
-        "TASK-28.4": {
-            "id": "TASK-28.4",
-            "title": "Full Dashboard Testing",
-            "description": "Test the dashboard with multiple agents and real-time updates",
-            "status": "pending",
-            "priority": "high",
-            "dependencies": ["TASK-28.3"],
-            "subtasks": []
-        }
-    },
-    "task_states": {
-        "pending": [
-            "TASK-28.4"
-        ],
-        "in_progress": [
-            "TASK-28"
-        ],
-        "completed": [
-            "TASK-1",
-            "TASK-2",
-            "TASK-11",
-            "TASK-12",
-            "TASK-23",
-            "TASK-26",
-            "TASK-26.1",
-            "TASK-26.2",
-            "TASK-26.3",
-            "TASK-26.4",
-            "TASK-27",
-            "TASK-27.1",
-            "TASK-27.2",
-            "TASK-27.3",
-            "TASK-28.1",
-            "TASK-28.2",
-            "TASK-28.3"
-        ],
-        "on_hold": [
-            "TASK-24"
-        ]
-    },
-    "critical_tasks": []
-} 
+	"tasks": {
+		"TASK-1": {
+			"id": "TASK-1",
+			"title": "Initial Project Setup",
+			"description": "Set up the basic project structure and dependencies",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-2": {
+			"id": "TASK-2",
+			"title": "Base Agent Implementation",
+			"description": "Implement the base agent class with core functionality",
+			"status": "completed",
+			"priority": "critical",
+			"dependencies": ["TASK-1"],
+			"subtasks": []
+		},
+		"TASK-11": {
+			"id": "TASK-11",
+			"title": "Market Analysis Agent Implementation",
+			"description": "Implement the market analysis agent",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": ["TASK-2"],
+			"subtasks": ["TASK-11.1", "TASK-11.2", "TASK-11.3", "TASK-11.4"]
+		},
+		"TASK-12": {
+			"id": "TASK-12",
+			"title": "Risk Manager Agent Implementation",
+			"description": "Implement the risk management agent",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": ["TASK-2"],
+			"subtasks": ["TASK-12.1", "TASK-12.2", "TASK-12.3", "TASK-12.4"]
+		},
+		"TASK-23": {
+			"id": "TASK-23",
+			"title": "Agent Async Implementation",
+			"description": "Implement asynchronous operation capabilities for all agents",
+			"status": "completed",
+			"priority": "critical",
+			"dependencies": ["TASK-2"],
+			"subtasks": ["TASK-23.1", "TASK-23.2", "TASK-23.3", "TASK-23.4"]
+		},
+		"TASK-24": {
+			"id": "TASK-24",
+			"title": "Crypto Trading Project Migration",
+			"description": "Migrate and archive the original crypto trading project",
+			"status": "on_hold",
+			"priority": "low",
+			"dependencies": [],
+			"subtasks": ["TASK-24.1", "TASK-24.2", "TASK-24.3"]
+		},
+		"TASK-26": {
+			"id": "TASK-26",
+			"title": "Task Manager Agent Implementation",
+			"description": "Implement the task manager agent for coordinating task delegation",
+			"status": "completed",
+			"priority": "critical",
+			"dependencies": ["TASK-23"],
+			"subtasks": ["TASK-26.1", "TASK-26.2", "TASK-26.3", "TASK-26.4"]
+		},
+		"TASK-26.1": {
+			"id": "TASK-26.1",
+			"title": "Task Delegation Tool",
+			"description": "Implement the task delegation tool for managing task assignments",
+			"status": "completed",
+			"priority": "critical",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-26.2": {
+			"id": "TASK-26.2",
+			"title": "Task Manager Agent Core",
+			"description": "Implement the core task manager agent functionality",
+			"status": "completed",
+			"priority": "critical",
+			"dependencies": ["TASK-26.1"],
+			"subtasks": []
+		},
+		"TASK-26.3": {
+			"id": "TASK-26.3",
+			"title": "Task Manager Instructions",
+			"description": "Create comprehensive instructions for the task manager agent",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": ["TASK-26.2"],
+			"subtasks": []
+		},
+		"TASK-26.4": {
+			"id": "TASK-26.4",
+			"title": "Task Manager Integration",
+			"description": "Integrate task manager with other agents and test functionality",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": ["TASK-26.3"],
+			"subtasks": []
+		},
+		"TASK-27": {
+			"id": "TASK-27",
+			"title": "Agent Communication Enhancement",
+			"description": "Enhance inter-agent communication with advanced message routing and handling",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": ["TASK-26"],
+			"subtasks": ["TASK-27.1", "TASK-27.2", "TASK-27.3"]
+		},
+		"TASK-27.1": {
+			"id": "TASK-27.1",
+			"title": "Message Routing System",
+			"description": "Implement advanced message routing between agents",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-27.2": {
+			"id": "TASK-27.2",
+			"title": "Message Format Standardization",
+			"description": "Standardize message formats for inter-agent communication",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-27.3": {
+			"id": "TASK-27.3",
+			"title": "Communication Monitoring",
+			"description": "Implement monitoring and logging for inter-agent communication",
+			"status": "completed",
+			"priority": "medium",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-28": {
+			"id": "TASK-28",
+			"title": "Agent Dashboard Implementation",
+			"description": "Implement and test the real-time agent monitoring dashboard",
+			"status": "in_progress",
+			"priority": "high",
+			"dependencies": ["TASK-27"],
+			"subtasks": ["TASK-28.1", "TASK-28.2", "TASK-28.3", "TASK-28.4"]
+		},
+		"TASK-28.1": {
+			"id": "TASK-28.1",
+			"title": "Dashboard UI Implementation",
+			"description": "Implement the terminal-based UI for the agent dashboard using rich library",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-28.2": {
+			"id": "TASK-28.2",
+			"title": "Agent Status Monitoring",
+			"description": "Implement real-time agent status monitoring and metrics collection",
+			"status": "completed",
+			"priority": "high",
+			"dependencies": ["TASK-28.1"],
+			"subtasks": []
+		},
+		"TASK-28.3": {
+			"id": "TASK-28.3",
+			"title": "Async Dashboard Operations",
+			"description": "Implement asynchronous operations for the dashboard",
+			"status": "completed",
+			"priority": "critical",
+			"dependencies": ["TASK-28.2"],
+			"subtasks": []
+		},
+		"TASK-28.4": {
+			"id": "TASK-28.4",
+			"title": "Full Dashboard Testing",
+			"description": "Test the dashboard with multiple agents and real-time updates",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-28.3"],
+			"subtasks": []
+		},
+		"TASK-29": {
+			"id": "TASK-29",
+			"title": "Agency-Swarm Framework Integration Improvements",
+			"description": "Enhance integration between custom components and agency-swarm framework",
+			"status": "in_progress",
+			"priority": "critical",
+			"dependencies": ["TASK-28"],
+			"subtasks": ["TASK-29.1", "TASK-29.2", "TASK-29.3", "TASK-29.4"]
+		},
+		"TASK-29.1": {
+			"id": "TASK-29.1",
+			"title": "Task Tracking System Consolidation",
+			"description": "Consolidate multiple task tracking implementations and align with agency-swarm patterns",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": ["TASK-29.1.1", "TASK-29.1.2", "TASK-29.1.3"]
+		},
+		"TASK-29.1.1": {
+			"id": "TASK-29.1.1",
+			"title": "Task System Analysis",
+			"description": "Analyze current task tracking implementations and identify consolidation points",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-29.1.2": {
+			"id": "TASK-29.1.2",
+			"title": "Unified Task Model",
+			"description": "Design and implement unified task model compatible with agency-swarm",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.1.1"],
+			"subtasks": []
+		},
+		"TASK-29.1.3": {
+			"id": "TASK-29.1.3",
+			"title": "Task System Migration",
+			"description": "Migrate existing tasks to new unified system",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.1.2"],
+			"subtasks": []
+		},
+		"TASK-29.2": {
+			"id": "TASK-29.2",
+			"title": "Communication Flow Enhancement",
+			"description": "Update communication handling to better utilize agency-swarm message routing",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.1"],
+			"subtasks": ["TASK-29.2.1", "TASK-29.2.2"]
+		},
+		"TASK-29.2.1": {
+			"id": "TASK-29.2.1",
+			"title": "Message Routing Alignment",
+			"description": "Align custom message handling with agency-swarm patterns",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-29.2.2": {
+			"id": "TASK-29.2.2",
+			"title": "Communication Pattern Implementation",
+			"description": "Implement standardized communication patterns across all agents",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.2.1"],
+			"subtasks": []
+		},
+		"TASK-29.3": {
+			"id": "TASK-29.3",
+			"title": "Tool Structure Standardization",
+			"description": "Standardize custom tools to better follow agency-swarm patterns",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.2"],
+			"subtasks": ["TASK-29.3.1", "TASK-29.3.2"]
+		},
+		"TASK-29.3.1": {
+			"id": "TASK-29.3.1",
+			"title": "Tool Pattern Alignment",
+			"description": "Update custom tools to follow agency-swarm BaseTool patterns",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-29.3.2": {
+			"id": "TASK-29.3.2",
+			"title": "Async Support Implementation",
+			"description": "Implement standardized async support across all tools",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.3.1"],
+			"subtasks": []
+		},
+		"TASK-29.4": {
+			"id": "TASK-29.4",
+			"title": "Agent Organization Restructuring",
+			"description": "Improve alignment between division structure and agency-swarm hierarchy",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.3"],
+			"subtasks": ["TASK-29.4.1", "TASK-29.4.2"]
+		},
+		"TASK-29.4.1": {
+			"id": "TASK-29.4.1",
+			"title": "Agent Role Definition",
+			"description": "Define clear separation between agent roles and responsibilities",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": [],
+			"subtasks": []
+		},
+		"TASK-29.4.2": {
+			"id": "TASK-29.4.2",
+			"title": "Division Structure Alignment",
+			"description": "Align division structure with agency-swarm agent hierarchy",
+			"status": "pending",
+			"priority": "high",
+			"dependencies": ["TASK-29.4.1"],
+			"subtasks": []
+		}
+	},
+	"task_states": {
+		"pending": [
+			"TASK-28.4",
+			"TASK-29.1",
+			"TASK-29.1.1",
+			"TASK-29.1.2",
+			"TASK-29.1.3",
+			"TASK-29.2",
+			"TASK-29.2.1",
+			"TASK-29.2.2",
+			"TASK-29.3",
+			"TASK-29.3.1",
+			"TASK-29.3.2",
+			"TASK-29.4",
+			"TASK-29.4.1",
+			"TASK-29.4.2"
+		],
+		"in_progress": ["TASK-28", "TASK-29"],
+		"completed": [
+			"TASK-1",
+			"TASK-2",
+			"TASK-11",
+			"TASK-12",
+			"TASK-23",
+			"TASK-26",
+			"TASK-26.1",
+			"TASK-26.2",
+			"TASK-26.3",
+			"TASK-26.4",
+			"TASK-27",
+			"TASK-27.1",
+			"TASK-27.2",
+			"TASK-27.3",
+			"TASK-28.1",
+			"TASK-28.2",
+			"TASK-28.3"
+		],
+		"on_hold": ["TASK-24"]
+	},
+	"critical_tasks": ["TASK-29"]
+}
