@@ -1,0 +1,22 @@
+{
+  "total_tests": 9,
+  "total_passed": 1,
+  "total_duration": 1.093009,
+  "suite_metrics": {
+    "Navigation Tests": {
+      "total": 4,
+      "passed": 1,
+      "duration": 0.198171
+    },
+    "Content Tests": {
+      "total": 2,
+      "passed": 0,
+      "duration": 0.483826
+    },
+    "Implementation Tests": {
+      "total": 3,
+      "passed": 0,
+      "duration": 0.411012
+    }
+  }
+}

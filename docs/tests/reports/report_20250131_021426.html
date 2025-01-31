@@ -1,0 +1,135 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Documentation Validation Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; }
+                .summary { background: #f5f5f5; padding: 20px; border-radius: 5px; }
+                .suite { margin: 20px 0; }
+                .test-result { margin: 10px 0; padding: 10px; border-radius: 3px; }
+                .pass { background: #e6ffe6; }
+                .fail { background: #ffe6e6; }
+                .metrics { display: flex; justify-content: space-around; margin: 20px 0; }
+                .metric-card { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            </style>
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        </head>
+        <body>
+            <h1>Documentation Validation Report</h1>
+            <p>Generated: 2025-01-31 02:14:27</p>
+
+            <div class="summary">
+                <h2>Overall Summary</h2>
+                <div class="metrics">
+                    
+            <div class="metric-card">
+                <h3>Total Tests</h3>
+                <p>9</p>
+            </div>
+            <div class="metric-card">
+                <h3>Pass Rate</h3>
+                <p>11.11%</p>
+            </div>
+            <div class="metric-card">
+                <h3>Total Duration</h3>
+                <p>1.09s</p>
+            </div>
+        
+                </div>
+                <div id="results-chart"></div>
+            </div>
+
+            
+                <div class="suite">
+                    <h2>Navigation Tests</h2>
+                    <p>Duration: 0.20s</p>
+                    <div class="test-results">
+            
+                    <div class="test-result pass">
+                        <h4>test_broken_links</h4>
+                        <p>Duration: 0.11s</p>
+                        <p></p>
+                    </div>
+                
+                    <div class="test-result fail">
+                        <h4>test_cross_references</h4>
+                        <p>Duration: 0.04s</p>
+                        <p>Section Tool Usage not found in cursor_rules.md</p>
+                    </div>
+                
+                    <div class="test-result fail">
+                        <h4>test_navigation_paths</h4>
+                        <p>Duration: 0.01s</p>
+                        <p>Navigation path cursor_rules.md -> tool_selection.md -> tool_creation.md is incomplete</p>
+                    </div>
+                
+                    <div class="test-result fail">
+                        <h4>test_orphaned_documents</h4>
+                        <p>Duration: 0.04s</p>
+                        <p>Document api.md is orphaned (no incoming links)</p>
+                    </div>
+                </div></div>
+                <div class="suite">
+                    <h2>Content Tests</h2>
+                    <p>Duration: 0.48s</p>
+                    <div class="test-results">
+            
+                    <div class="test-result fail">
+                        <h4>test_examples</h4>
+                        <p>Duration: 0.27s</p>
+                        <p>Invalid examples found for type 'Code Examples'</p>
+                    </div>
+                
+                    <div class="test-result fail">
+                        <h4>test_pattern_consistency</h4>
+                        <p>Duration: 0.22s</p>
+                        <p>Pattern 'Task Execution' lacks matching examples</p>
+                    </div>
+                </div></div>
+                <div class="suite">
+                    <h2>Implementation Tests</h2>
+                    <p>Duration: 0.41s</p>
+                    <div class="test-results">
+            
+                    <div class="test-result fail">
+                        <h4>test_autonomous_operations</h4>
+                        <p>Duration: 0.06s</p>
+                        <p>Autonomous pattern validation failed for Information Gathering</p>
+                    </div>
+                
+                    <div class="test-result fail">
+                        <h4>test_decision_frameworks</h4>
+                        <p>Duration: 0.19s</p>
+                        <p>Decision framework validation failed for FEATURE</p>
+                    </div>
+                
+                    <div class="test-result fail">
+                        <h4>test_edge_cases</h4>
+                        <p>Duration: 0.16s</p>
+                        <p>Edge case validation failed for Empty Context</p>
+                    </div>
+                </div></div>
+
+            <script>
+                
+            // Results Pie Chart
+            var data = [{
+                values: [1, 8],
+                labels: ['Passed', 'Failed'],
+                type: 'pie',
+                marker: {
+                    colors: ['#4CAF50', '#f44336']
+                }
+            }];
+
+            var layout = {
+                title: 'Test Results Distribution'
+            };
+
+            Plotly.newPlot('results-chart', data, layout);
+        
+            </script>
+        </body>
+        </html>
+        

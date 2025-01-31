@@ -1,0 +1,108 @@
+{
+  "generated_at": "2025-01-31T02:14:27.320065",
+  "suites": [
+    {
+      "name": "Navigation Tests",
+      "duration": 0.198171,
+      "start_time": "2025-01-31T02:14:26.209030",
+      "end_time": "2025-01-31T02:14:26.407201",
+      "results": [
+        {
+          "name": "test_broken_links",
+          "status": "pass",
+          "duration": 0.10658383369445801,
+          "error_message": null,
+          "details": {}
+        },
+        {
+          "name": "test_cross_references",
+          "status": "fail",
+          "duration": 0.03511857986450195,
+          "error_message": "Section Tool Usage not found in cursor_rules.md",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_navigation.py\", line 108, in test_cross_references\n    assert self.validator.section_exists(ref[\"from\"], ref[\"section\"]), \\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Section Tool Usage not found in cursor_rules.md\n"
+          }
+        },
+        {
+          "name": "test_navigation_paths",
+          "status": "fail",
+          "duration": 0.01466679573059082,
+          "error_message": "Navigation path cursor_rules.md -> tool_selection.md -> tool_creation.md is incomplete",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_navigation.py\", line 123, in test_navigation_paths\n    assert self.validator.path_complete(path), \\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Navigation path cursor_rules.md -> tool_selection.md -> tool_creation.md is incomplete\n"
+          }
+        },
+        {
+          "name": "test_orphaned_documents",
+          "status": "fail",
+          "duration": 0.04165482521057129,
+          "error_message": "Document api.md is orphaned (no incoming links)",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_navigation.py\", line 138, in test_orphaned_documents\n    assert incoming_links, f\"Document {doc} is orphaned (no incoming links)\"\n           ^^^^^^^^^^^^^^\nAssertionError: Document api.md is orphaned (no incoming links)\n"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Content Tests",
+      "duration": 0.483826,
+      "start_time": "2025-01-31T02:14:26.407328",
+      "end_time": "2025-01-31T02:14:26.891154",
+      "results": [
+        {
+          "name": "test_examples",
+          "status": "fail",
+          "duration": 0.2658054828643799,
+          "error_message": "Invalid examples found for type 'Code Examples'",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_content.py\", line 198, in test_examples\n    assert self.validator.examples_valid(type), \\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Invalid examples found for type 'Code Examples'\n"
+          }
+        },
+        {
+          "name": "test_pattern_consistency",
+          "status": "fail",
+          "duration": 0.21793866157531738,
+          "error_message": "Pattern 'Task Execution' lacks matching examples",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_content.py\", line 184, in test_pattern_consistency\n    assert self.validator.examples_match(pattern), \\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Pattern 'Task Execution' lacks matching examples\n"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Implementation Tests",
+      "duration": 0.411012,
+      "start_time": "2025-01-31T02:14:26.891378",
+      "end_time": "2025-01-31T02:14:27.302390",
+      "results": [
+        {
+          "name": "test_autonomous_operations",
+          "status": "fail",
+          "duration": 0.055498600006103516,
+          "error_message": "Autonomous pattern validation failed for Information Gathering",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_implementation.py\", line 328, in test_autonomous_operations\n    assert self.validator.validate_autonomous_pattern(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Autonomous pattern validation failed for Information Gathering\n"
+          }
+        },
+        {
+          "name": "test_decision_frameworks",
+          "status": "fail",
+          "duration": 0.19419336318969727,
+          "error_message": "Decision framework validation failed for FEATURE",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_implementation.py\", line 415, in test_decision_frameworks\n    assert self.validator.validate_decision_framework(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Decision framework validation failed for FEATURE\n"
+          }
+        },
+        {
+          "name": "test_edge_cases",
+          "status": "fail",
+          "duration": 0.1612260341644287,
+          "error_message": "Edge case validation failed for Empty Context",
+          "details": {
+            "traceback": "Traceback (most recent call last):\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/run_tests.py\", line 79, in _run_test\n    test_method()\n  File \"/mnt/c/Users/nebul/Documents/GitHub/agency-swarm-1/docs/tests/test_implementation.py\", line 465, in test_edge_cases\n    assert self.validator.validate_autonomous_pattern(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Edge case validation failed for Empty Context\n"
+          }
+        }
+      ]
+    }
+  ]
+}
